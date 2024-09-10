@@ -2,7 +2,6 @@ package com.flight_search.controllers;
 
 import com.flight_search.domain.dto.FlightDto;
 import com.flight_search.services.impl.KafkaProducerImpl;
-//import com.flight_search.services.impl.producer.KafkaProducerImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

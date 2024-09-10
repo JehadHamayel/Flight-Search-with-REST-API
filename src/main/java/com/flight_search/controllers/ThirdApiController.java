@@ -13,7 +13,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/thired")
 @RequiredArgsConstructor
-public class ThiredApiController {
+public class ThirdApiController {
     
     private final ThiredApiServiceImpl thiredApiService;
 

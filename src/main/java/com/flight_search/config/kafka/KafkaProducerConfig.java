@@ -18,8 +18,7 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    @Value("${spring.kafka.bootstrap-servers}")
-    private String bootstrapAddress;
+    private String bootstrapAddress = "localhost:9092";
 
     public Map<String, Object> producerConfig(){
         Map<String, Object> props = new HashMap<>();
