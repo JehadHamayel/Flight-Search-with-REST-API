@@ -1,5 +1,17 @@
-# Flight-Search
+# Flight-Search API System
 
+## Table of Contents
+- [Overview](#overview)
+- [Technologies Used](#technologies-used)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Create the images of the Application using Docker](#create-the-images-of-the-application-using-docker)
+- [Accessing Swagger UI](#accessing-swagger-ui)
+- [The images of the project on my docker hub](#the-images-of-the-project-on-my-docker-hub)
+ 
+
+  
 ## Overview
 
 Flight-Search is a Spring Boot application designed to provide flight search functionality using various technologies and best practices. This project leverages PostgreSQL for database management, Gradle for build automation, and incorporates advanced features like Aspect-Oriented Programming (AOP), JSON Web Tokens (JWT) for security, Kafka for messaging, Swagger for API documentation, JPA and JDBC for data access, and Docker for containerization. Additionally, the project includes third-party API integration, JUnit for unit testing, and comprehensive logging. An H2 in-memory database is also available for testing and development purposes.
@@ -22,9 +34,7 @@ Flight-Search is a Spring Boot application designed to provide flight search fun
 - **JUnit**: Unit testing framework
 - **Docker**: Containerization for consistent deployment
 
-## Getting Started
-
-### Prerequisites
+## Prerequisites
 
 - **Java 17**
 - **Gradle 8**
@@ -33,29 +43,12 @@ Flight-Search is a Spring Boot application designed to provide flight search fun
 - **Docker**
 - **Apache Kafka**
 
-### Clone the Repository
-
-```bash
-git clone https://github.com/JehadHamayel/Flight-Search-with-REST-API
-```
-
 ## Installation
 ### 1. Clone the repository:
-- Open `src/main/resources/application.properties`.
-- Configure your PostgreSQL database settings:
-   ```properties
-    spring.datasource.username=${db-username:postgres}
-    spring.datasource.password=${db-password:123!@#OP}
+   ```bash
+   git clone https://github.com/JehadHamayel/Flight-Search-with-REST-API
    ```
-  1. for **dev**
-  ```properties
-    spring.datasource.url=${db-url:jdbc:postgresql://localhost:5432/FlightSearchDB}
-   ```
-  2. for **test**
-   ```properties
-    spring.datasource.url=${db-url:jdbc:postgresql://localhost:5432/test}
-   ```
-   
+ 
 ### 2. Install Ubuntu WSL2:
 Follow the [Ubuntu WSL2 Guide](https://github.com/ubuntu/WSL/blob/main/docs/guides/install-ubuntu-wsl2.md) for setting up Ubuntu on Windows Subsystem for Linux 2.
 
@@ -96,27 +89,12 @@ Follow these steps to get Kafka running on Windows:
     gradle clean build
    ```
 - Run the Spring Boot application 
-### Docker Setup
-
-To build and run the application in a Docker container:
-
-1. Build the Docker image:
-   ```bash
-   docker build -t flight-search .
-   ```
-
-2. Run the Docker container:
-   ```bash
-   docker run -p 8080:8080 flight-search
-   ```
 
 ## Create the images of the Application using Docker
 - Using this commad you will pull and create the images for the application:
   ```bash
    docker compose -f .\docker-compose.yaml up -d
   ```
-## The images of the project on my docker hub
-- [Project Image](https://hub.docker.com/r/jehad950/flight_search_rest_api)
   
 ### Accessing Swagger UI
 
@@ -125,3 +103,5 @@ Once the application is running, you can access the Swagger UI to explore the RE
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
+## The images of the project on my docker hub
+- [Project Image](https://hub.docker.com/r/jehad950/flight_search_rest_api)
