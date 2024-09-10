@@ -62,8 +62,7 @@ Follow these steps to get Kafka running on Windows:
 2. **Start Zookeeper**:
    Kafka relies on Zookeeper. Open a command prompt, navigate to the Kafka directory, and run:
    ```bash
-   cd C:\kafka
-   .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+   bin/zookeeper-server-start.sh config/zookeeper.properties
    ```
 3. **Start Kafka Server**:
    ```bash
@@ -96,7 +95,7 @@ Follow these steps to get Kafka running on Windows:
    docker compose -f .\docker-compose.yaml up -d
   ```
   
-### Accessing Swagger UI
+## Accessing Swagger UI
 
 Once the application is running, you can access the Swagger UI to explore the REST API but if you want to see the result in web page you have to stop the jwt:
 
