@@ -5,17 +5,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-
+/**
+ * Data Transfer Object (DTO) for representing an airport.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class AirportDto {
 
-   private Long id;
+    /**
+     * The unique identifier of the airport.
+     */
+    private Long id;
 
+    /**
+     * The city where the airport is located.
+     */
     private String city;
 
 }

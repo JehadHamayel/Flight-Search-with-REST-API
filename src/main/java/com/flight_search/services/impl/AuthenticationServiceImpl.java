@@ -1,6 +1,5 @@
 package com.flight_search.services.impl;
 
-
 import com.flight_search.domain.dto.authentication.AuthenticationRequest;
 import com.flight_search.domain.dto.authentication.AuthenticationResponse;
 import com.flight_search.domain.dto.authentication.LoginRequest;
@@ -15,6 +14,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the {@link AuthenticationService} interface.
+ * Provides methods for user authentication and JWT token generation.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -24,7 +27,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-
+    /**
+     * Registers a new user with USER role and generates a JWT token for the user.
+     * @param loginRequest contains user details for registration and login.
+     * @return an {@link AuthenticationResponse} containing the generated JWT token.
+     */
     @Override
     public AuthenticationResponse loginAsUser(LoginRequest loginRequest) {
         var user = UserEntity.builder()
@@ -35,12 +42,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
-         var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
 
+    /**
+     * Registers a new user with ADMIN role and generates a JWT token for the user.
+     * @param loginRequest contains user details for registration and login.
+     * @return an {@link AuthenticationResponse} containing the generated JWT token.
+     */
     @Override
     public AuthenticationResponse loginAsAdmin(LoginRequest loginRequest) {
         var user = UserEntity.builder()
@@ -51,12 +63,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.ADMIN)
                 .build();
         userRepository.save(user);
-         var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
 
+    /**
+     * Authenticates an existing user and generates a JWT token if authentication is successful.
+     * @param loginRequest contains email and password for authentication.
+     * @return an {@link AuthenticationResponse} containing the generated JWT token.
+     * @throws RuntimeException if the user is not found.
+     */
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest loginRequest) {
         authenticationManager.authenticate(

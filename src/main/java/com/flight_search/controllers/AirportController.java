@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * REST controller for handling airport-related operations.
+ * Provides endpoints for creating, retrieving, updating, and deleting airports.
+ */
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -32,22 +36,27 @@ public class AirportController {
     private final AirportService airportService;
     private final Mapper<AirportEntity, AirportDto> airportMapper;
 
+    /**
+     * Creates a new airport.
+     *
+     * @param airportDto the details of the airport to create
+     * @return a {@link ResponseEntity} containing the created airport and HTTP status
+     */
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Airport created",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = AirportEntity.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid input",
-                    content = @Content)})
+                    content = @Content) })
     @Tag(name = "Post", description = "Post methods of APIs")
     @Operation(summary = "Create an airport",
             description = "Create a new airport")
     @PostMapping("/airport")
     public ResponseEntity<AirportDto> createAirport(
-            @Parameter( description = "Airport to add. Cannot be null or empty.",
-                    required = true )
+            @Parameter(description = "Airport to add. Cannot be null or empty.",
+                    required = true)
             @RequestBody AirportDto airportDto
     ) {
-
         log.warn("No need to add the airport id in the request body. It will be auto-generated");
 
         AirportEntity airportEntity = airportMapper.mapFrom(airportDto);
@@ -62,9 +71,14 @@ public class AirportController {
         }
     }
 
+    /**
+     * Retrieves a list of all airports.
+     *
+     * @return a {@link List} of {@link AirportDto} objects
+     */
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AirportEntity.class)) })})
+                    schema = @Schema(implementation = AirportEntity.class)) }) })
     @Tag(name = "Get", description = "Get methods of APIs")
     @Operation(summary = "Get all airports",
             description = "Get all airports")
@@ -76,9 +90,15 @@ public class AirportController {
         return airports.stream().map(airportMapper::mapTo).collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves a paginated list of all airports.
+     *
+     * @param pageable the pagination information
+     * @return a {@link Page} of {@link AirportDto} objects
+     */
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AirportEntity.class)) })})
+                    schema = @Schema(implementation = AirportEntity.class)) }) })
     @Tag(name = "Get", description = "Get methods of APIs")
     @Operation(summary = "Get all airports with pagination",
             description = "Get all airports with pagination")
@@ -90,6 +110,12 @@ public class AirportController {
         return airports.map(airportMapper::mapTo);
     }
 
+    /**
+     * Retrieves an airport by its ID.
+     *
+     * @param id the ID of the airport to retrieve
+     * @return a {@link ResponseEntity} containing the airport if found, otherwise HTTP 404 status
+     */
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AirportEntity.class)) }),
@@ -104,7 +130,6 @@ public class AirportController {
                     required = true)
             @PathVariable("id") Long id
     ) {
-
         log.info("Fetching airport with id " + id);
         Optional<AirportEntity> airportEntity = airportService.findById(id);
 
@@ -118,21 +143,26 @@ public class AirportController {
                 });
     }
 
+    /**
+     * Updates an existing airport by its ID.
+     *
+     * @param id the ID of the airport to update
+     * @param airportDto the details of the airport to update
+     * @return a {@link ResponseEntity} containing the updated airport and HTTP status
+     */
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = AirportEntity.class)) }),
             @ApiResponse(responseCode = "404", description = "Airport not found",
                     content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error",
-                    content = @Content)
-    })
+                    content = @Content) })
     @Tag(name = "Put", description = "Put methods of APIs")
     @Operation(summary = "Update an airport",
             description = "Update an existing airport by its id")
     @PutMapping("/airport/{id}")
     public ResponseEntity<AirportDto> updateAirport(
-            @Parameter(
-                    description = "Id of the airport to update and Airport information to update. Cannot be empty.",
+            @Parameter(description = "Id of the airport to update and Airport information to update. Cannot be empty.",
                     required = true)
             @PathVariable("id") Long id,
             @RequestBody AirportDto airportDto) {
@@ -157,14 +187,18 @@ public class AirportController {
         }
     }
 
+    /**
+     * Deletes an airport by its ID.
+     *
+     * @param id the ID of the airport to delete
+     * @return a {@link ResponseEntity} with HTTP status indicating the result of the deletion
+     */
     @ApiResponses({
-            @ApiResponse(responseCode = "204", content = { @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AirportEntity.class)) }),
+            @ApiResponse(responseCode = "204", description = "Airport deleted"),
             @ApiResponse(responseCode = "409", description = "Airport is used in a flight",
                     content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error",
-                    content = @Content)
-    })
+                    content = @Content) })
     @Tag(name = "Delete", description = "Delete methods of APIs")
     @Operation(summary = "Delete an airport",
             description = "Delete an existing airport by its id")

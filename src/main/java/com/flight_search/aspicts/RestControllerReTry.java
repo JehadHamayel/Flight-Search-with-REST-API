@@ -3,12 +3,32 @@ package com.flight_search.aspicts;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Aspect that adds retry logic to methods within classes annotated with
+ * {@link RestController}.
+ * This aspect intercepts calls to RestControllers and automatically retries
+ * the execution if an exception occurs, typically for throttling or timeout cases.
+ */
 @Component
 @Aspect
 public class RestControllerReTry {
+
+    /**
+     * The number of milliseconds to wait between retry attempts.
+     */
     private static int WAIT_MILLIS_BETWEEN_TRIES = 1000;
 
+    /**
+     * Around advice that intercepts the execution of any method within a class
+     * annotated with {@link RestController}.
+     * It retries the execution of the intercepted method indefinitely if an exception is thrown.
+     *
+     * @param thisJoinPoint The join point representing the method being intercepted.
+     * @return The result of the intercepted method call.
+     * @throws Throwable if the intercepted method throws an exception that is not retried.
+     */
     @Around("@within(org.springframework.web.bind.annotation.RestController)")
     public Object invoke(ProceedingJoinPoint thisJoinPoint) throws Throwable {
         System.out.println(getClass().getSimpleName() + " -> " + thisJoinPoint);
@@ -16,8 +36,7 @@ public class RestControllerReTry {
         for (int i = 1;; i++) {
             try {
                 return thisJoinPoint.proceed();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("  Throttled during try #" + i);
                 Thread.sleep(WAIT_MILLIS_BETWEEN_TRIES);
             }
@@ -26,7 +45,7 @@ public class RestControllerReTry {
 
 }
 
-//Example of other pointcuts and advices
+// Example of other pointcuts and advices:
 
 //    @After("execution(* listFlights())")
 //    public void afterFlightController() {
